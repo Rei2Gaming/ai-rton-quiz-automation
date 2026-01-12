@@ -27,7 +27,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: transparent;
+            background: linear-gradient(135deg, #F5E6E0 0%, #F9F1ED 100%);
             color: var(--text-dark);
             min-height: 100vh;
             padding: 20px;
@@ -1173,7 +1173,7 @@
         window.addEventListener('DOMContentLoaded', init);
         // Auto-resize iframe script 
         function sendHeight() { 
-            const height = document.body.scrollHeight; 
+            const height = document.documentElement.scrollHeight || document.body.scrollHeight; 
             window.parent.postMessage({ type: "resize", height: height }, "*"); 
         } 
         window.addEventListener("load", sendHeight); 
