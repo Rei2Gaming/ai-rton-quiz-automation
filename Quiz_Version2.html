@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Descobre Se Estás Pronto Para Lançar Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-wine: #A64D79;
+            --primary-dark-wine: #8B3A63;
+            --accent-gold: #D4AF37;
+            --accent-peach: #E8C4A8;
+            --bg-light: #F5E6E0;
+            --text-dark: #2C2C2C;
+            --text-light: #6B6B6B;
+            --success: #2E8B57;
+            --maybe: #C9A961;
+            --error: #B85C5C;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #F5E6E0 0%, #F9F1ED 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 50px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            color: var(--primary-wine);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .header .subtext {
+            font-size: 14px;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 40px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(166, 77, 121, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-wine), var(--accent-gold));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(166, 77, 121, 0.12);
+            margin-bottom: 30px;
+            animation: slideUp 0.5s ease;
+        }
+
+        .question-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 35.78px;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 30px;
+        }
+
+        /* Answer Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            position: relative;
+            text-align: left;
+            padding: 18px 24px;
+            border: 2px solid #E0D5D0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: var(--text-dark);
+            font-weight: 500;
+            display: block;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary-wine);
+            background: rgba(166, 77, 121, 0.05);
+            transform: translateX(5px);
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary-wine);
+            background: rgba(166, 77, 121, 0.15);
+            box-shadow: 0 6px 18px rgba(166, 77, 121, 0.06);
+        }
+
+        .option-btn input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: var(--primary-wine);
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        /* Form Inputs */
+        .form-input {
+            padding: 15px;
+            border: 2px solid #E0D5D0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-wine);
+            background: rgba(166, 77, 121, 0.05);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+        }
+
+        /* Text Input */
+        .text-input-container {
+            margin-top: 20px;
+        }
+
+        .text-input-container textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E0D5D0;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            color: var(--text-dark);
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s ease;
+        }
+
+        .text-input-container textarea:focus {
+            outline: none;
+            border-color: var(--primary-wine);
+            background: rgba(166, 77, 121, 0.05);
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-wine);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark-wine);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(166, 77, 121, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(166, 77, 121, 0.1);
+            color: var(--primary-wine);
+            border: 2px solid var(--primary-wine);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(166, 77, 121, 0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Section */
+        .results-container {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .result-badge {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .result-badge.ready {
+            background: rgba(46, 139, 87, 0.15);
+            color: var(--success);
+        }
+
+        .result-badge.almost {
+            background: rgba(201, 169, 97, 0.15);
+            color: var(--maybe);
+        }
+
+        .result-badge.not-ready {
+            background: rgba(184, 92, 92, 0.15);
+            color: var(--error);
+        }
+
+        .result-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 50px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .result-message {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .result-points {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--primary-wine);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .cta-section {
+            background: rgba(166, 77, 121, 0.08);
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 30px;
+        }
+
+        .cta-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--primary-wine);
+            margin-bottom: 15px;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .btn-cta {
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--primary-wine);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-cta:hover {
+            background: var(--primary-dark-wine);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(166, 77, 121, 0.3);
+        }
+
+        /* Hidden sections */
+        .quiz-section.hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 24px;
+            }
+
+            .question {
+                font-size: 28px;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>QUIZ: WEBSITE PROFISSIONAL AI.RTON</h1>
+            <p>Descobre Se Estás Pronto Para Lançar O Teu Website</p>
+            <p class="subtext">Responde em 5 minutos - Resultado Imediato</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text"><span id="currentQuestion">1</span>/<span id="totalQuestions">15</span></div>
+        </div>
+
+        <!-- Quiz Form -->
+        <form id="quizForm" class="quiz-form" onsubmit="return false;">
+            
+            <!-- Q1 -->
+            <div class="quiz-section quiz-container" data-question="1">
+                <div class="question-number">PERGUNTA 1 de 15</div>
+                <div class="question">Qual é o teu maior bloqueio com o website?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q1" value="3" required>
+                        Não tenho website, não sei por onde começar
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q1" value="3">
+                        Tenho website mas não gera leads/vendas
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q1" value="2">
+                        Website desatualizado, precisa de uma mudança completa
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q1" value="1">
+                        Acho que está bom, mas não tenho a certeza
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="quiz-section quiz-container hidden" data-question="2">
+                <div class="question-number">PERGUNTA 2 de 15</div>
+                <div class="question">Se o website fizesse UMA coisa bem feita, qual seria?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q2" value="3" required>
+                        Conseguir leads/contactos de clientes
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q2" value="3">
+                        Vender produtos/serviços diretamente
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q2" value="2">
+                        Mostrar que sou um profissional credível
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q2" value="1">
+                        Ter presença online porque "todos têm"
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="quiz-section quiz-container hidden" data-question="3">
+                <div class="question-number">PERGUNTA 3 de 15</div>
+                <div class="question">Descreve em 3 palavras: quem queres atingir?</div>
+                <div class="text-input-container">
+                    <textarea name="q3" placeholder="Ex: Empreendedoras, jovens, Angola..." required></textarea>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="quiz-section quiz-container hidden" data-question="4">
+                <div class="question-number">PERGUNTA 4 de 15</div>
+                <div class="question">Porque é que um cliente te escolhe a ti?</div>
+                <div class="text-input-container">
+                    <textarea name="q4" placeholder="O teu diferenciador..." required></textarea>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="quiz-section quiz-container hidden" data-question="5">
+                <div class="question-number">PERGUNTA 5 de 15</div>
+                <div class="question">O que é que já tens pronto para o website?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q5" value="3" required>
+                        Fotos, textos, logotipo, cores - tudo pronto
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q5" value="2">
+                        Tenho ideias mas preciso de ajuda
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q5" value="2">
+                        Preciso de ajuda desde o conteúdo até as fotos
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q5" value="1">
+                        Ainda não pensei nisso
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="quiz-section quiz-container hidden" data-question="6">
+                <div class="question-number">PERGUNTA 6 de 15</div>
+                <div class="question">Qual é a ação que queres que o visitante faça?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q6" value="3" required>
+                        Marcar uma consulta/contacto
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q6" value="3">
+                        Comprar um produto/serviço
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q6" value="2">
+                        Deixar email para a newsletter
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q6" value="1">
+                        Apenas ler e conhecer-me melhor
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="quiz-section quiz-container hidden" data-question="7">
+                <div class="question-number">PERGUNTA 7 de 15</div>
+                <div class="question">Como cliente deve conseguir falar contigo? Se sim, como?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q7" value="2" required>
+                        WhatsApp direto (conversa por telemóvel)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q7" value="2">
+                        Formulário + respondo por email (contacto)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q7" value="3">
+                        Ambos (WhatsApp + formulário)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q7" value="1">
+                        Não, prefiro que contactem de outra forma
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="quiz-section quiz-container hidden" data-question="8">
+                <div class="question-number">PERGUNTA 8 de 15</div>
+                <div class="question">Já visitaste websites que te fizeram pensar "quero isto"?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q8" value="3" required>
+                        Sim, tenho 2-3 exemplos em mente
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q8" value="1">
+                        Vagamente, mas não lembro detalhes
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q8" value="1">
+                        Não, nem pensei nisso
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="quiz-section quiz-container hidden" data-question="9">
+                <div class="question-number">PERGUNTA 9 de 15</div>
+                <div class="question">Qual é a importância de aparecer no Google?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q9" value="3" required>
+                        Crítica - dependo disso para ter clientes
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q9" value="2">
+                        Importante mas não é urgente
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q9" value="1">
+                        Não é prioridade agora
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q9" value="2">
+                        Quero aparecer em ChatGPT/IA, não tanto Google
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="quiz-section quiz-container hidden" data-question="10">
+                <div class="question-number">PERGUNTA 10 de 15</div>
+                <div class="question">Depois de lançar, tu preferes:</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q10" value="1" required>
+                        Gerir sozinho (preciso de facilidade)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q10" value="2">
+                        Misto - simples eu faço, resto alguém faz
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q10" value="3">
+                        Que alguém cuide de tudo
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q11 -->
+            <div class="quiz-section quiz-container hidden" data-question="11">
+                <div class="question-number">PERGUNTA 11 de 15</div>
+                <div class="question">Com domínio e hospedagem, estás em que situação?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q11" value="1" required>
+                        Já tenho domínio e hospedagem
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q11" value="2">
+                        Tenho domínio (nome do site) mas preciso de hospedagem (local onde fica guardado)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q11" value="1">
+                        Preciso dos dois
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q11" value="0">
+                        Não faço ideia, preciso que me expliques
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="quiz-section quiz-container hidden" data-question="12">
+                <div class="question-number">PERGUNTA 12 de 15</div>
+                <div class="question">Com que rapidez queres lançar?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q12" value="3" required>
+                        1-2 semanas (aceito "bom o suficiente")
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q12" value="3">
+                        3-4 semanas (qualidade + rapidez)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q12" value="2">
+                        1-2 meses (qualidade top)
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q12" value="1">
+                        Sem pressa, quando tudo estiver pronto
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="quiz-section quiz-container hidden" data-question="13">
+                <div class="question-number">PERGUNTA 13 de 15</div>
+                <div class="question">Qual destas frases mais te descreve?</div>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="q13" value="2" required>
+                        Estou perdido e não sei por onde começar
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q13" value="2">
+                        Tenho website mas não vejo resultados
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q13" value="1">
+                        Sei que preciso mas estou em adiamento
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="q13" value="3">
+                        Estou pronto e sei exatamente o que preciso
+                    </label>
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q14 - Contact Information -->
+            <div class="quiz-section quiz-container hidden" data-question="14">
+                <div class="question-number">PERGUNTA 14 de 15</div>
+                <div class="question">Deixa os teus dados de contacto</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <input type="text" name="firstName" placeholder="Nome" required class="form-input">
+                    <input type="text" name="lastName" placeholder="Sobrenome" required class="form-input">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" name="companyName" placeholder="Nome da Empresa / Nome Profissional" required class="form-input" style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" name="jobTitle" placeholder="Cargo ou Posição" required class="form-input" style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="tel" name="whatsapp" placeholder="Número de WhatsApp (+XX xxxxxxxxx)" required class="form-input" style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="email" name="email" placeholder="Email" required class="form-input" style="width: 100%;">
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="nextQuestion()">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <!-- Q15 - Scheduling -->
+            <div class="quiz-section quiz-container hidden" data-question="15">
+                <div class="question-number">PERGUNTA 15 de 15 (Última)</div>
+                <div class="question">Quando é que preferes a tua primeira consultoria?</div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-dark);">Data:</label>
+                    <input type="date" name="consultationDate" required class="form-input" style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-dark);">Horário:</label>
+                    <input type="time" name="consultationTime" required class="form-input" style="width: 100%;">
+                </div>
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevQuestion()">VOLTAR</button>
+                    <button type="button" class="btn btn-primary" onclick="submitQuiz()">VER RESULTADO</button>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Results -->
+        <div class="results-container" id="resultsContainer">
+            <div id="resultsContent"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Config
+        const totalQuestions = 15;
+        const ZAPIER_WEBHOOK_URL = 'https://5000-iipgok7ow3h95kxr2zdk9-80def95d.us1.manus.computer/submit'; // Updated to Manus backend
+
+        // State
+        let currentQuestion = 1;
+
+        // LocalStorage queue key for failed submissions
+        const QUEUE_KEY = 'quiz_pending_submissions_v1';
+
+        // Utility: read/write queue
+        function readQueue() {
+            try {
+                const raw = localStorage.getItem(QUEUE_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                console.error('Erro ao ler queue do localStorage', e);
+                return [];
+            }
+        }
+        function writeQueue(queue) {
+            try {
+                localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+            } catch (e) {
+                console.error('Erro ao gravar queue no localStorage', e);
+            }
+        }
+        function pushToQueue(item) {
+            const queue = readQueue();
+            queue.push(item);
+            writeQueue(queue);
+            console.warn('Payload guardado localmente (fila):', item);
+        }
+        function removeFromQueueById(id) {
+            const queue = readQueue().filter(i => i._id !== id);
+            writeQueue(queue);
+        }
+
+        // Show question
+        function showQuestion(questionNum) {
+            // Hide all questions
+            document.querySelectorAll('.quiz-section').forEach(el => el.classList.add('hidden'));
+
+            // Show current question if exists
+            const target = document.querySelector(`[data-question="${questionNum}"]`);
+            if (target) target.classList.remove('hidden');
+
+            // Update progress
+            document.getElementById('currentQuestion').textContent = questionNum;
+            document.getElementById('progressFill').style.width = (questionNum / totalQuestions) * 100 + '%';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Correct validation for radios and textareas
+        function nextQuestion() {
+            const currentForm = document.querySelector(`[data-question="${currentQuestion}"]`);
+            if (!currentForm) return;
+
+            // find required fields inside currentForm
+            const requiredFields = Array.from(currentForm.querySelectorAll('input[required], textarea[required]'));
+            let isValid = true;
+            const processedRadioNames = new Set();
+
+            requiredFields.forEach(field => {
+                if (!isValid) return; // small early exit
+
+                if (field.type === 'radio') {
+                    const name = field.name;
+                    // ensure we only validate once per radio group
+                    if (processedRadioNames.has(name)) return;
+                    processedRadioNames.add(name);
+                    const checked = currentForm.querySelector(`input[name="${name}"]:checked`);
+                    if (!checked) {
+                        isValid = false;
+                    }
+                } else {
+                    // other input types and textarea
+                    const val = field.value;
+                    if (!val || !String(val).trim()) {
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (!isValid) {
+                alert('Por favor, responde a esta pergunta antes de continuar.');
+                return;
+            }
+
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        // Calculate score (Q1..Q13 radios only as in original logic)
+        function calculateScore() {
+            let totalScore = 0;
+            for (let i = 1; i <= 13; i++) {
+                const form = document.querySelector(`[data-question="${i}"]`);
+                if (!form) continue;
+                const input = form.querySelector(`input[name="q${i}"]:checked`);
+                if (input) totalScore += parseInt(input.value, 10) || 0;
+            }
+            return totalScore;
+        }
+
+        // Submit quiz
+        function submitQuiz() {
+            // final validation on last page
+            const currentForm = document.querySelector(`[data-question="${currentQuestion}"]`);
+            const requiredFields = Array.from(currentForm.querySelectorAll('input[required], textarea[required]'));
+            for (const field of requiredFields) {
+                if (field.type === 'radio') {
+                    const name = field.name;
+                    const checked = currentForm.querySelector(`input[name="${name}"]:checked`);
+                    if (!checked) {
+                        alert('Por favor, responde a esta pergunta antes de continuar.');
+                        return;
+                    }
+                } else {
+                    if (!field.value || !String(field.value).trim()) {
+                        alert('Por favor, preenche os campos obrigatórios.');
+                        return;
+                    }
+                }
+            }
+
+            // gather data
+            const totalScore = calculateScore();
+
+            const submissionData = {
+                _id: Date.now(), // unique id for queue management
+                score: totalScore,
+                firstName: document.querySelector('input[name="firstName"]').value || '',
+                lastName: document.querySelector('input[name="lastName"]').value || '',
+                companyName: document.querySelector('input[name="companyName"]').value || '',
+                jobTitle: document.querySelector('input[name="jobTitle"]').value || '',
+                whatsapp: document.querySelector('input[name="whatsapp"]').value || '',
+                email: document.querySelector('input[name="email"]').value || '',
+                consultationDate: document.querySelector('input[name="consultationDate"]').value || '',
+                consultationTime: document.querySelector('input[name="consultationTime"]').value || '',
+                publico_alvo: document.querySelector('textarea[name="q3"]')?.value || '',
+                diferenciador: document.querySelector('textarea[name="q4"]')?.value || '',
+                submittedAt: new Date().toISOString()
+            };
+
+            console.log('submitQuiz called — dados preparados:', submissionData);
+
+            // Try to send (will fallback to queue if fails)
+            sendToZapier(submissionData);
+
+            // Show results to user
+            showResults(totalScore, submissionData);
+        }
+
+        function showResults(totalScore, submissionData) {
+            const quizForm = document.getElementById('quizForm');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            quizForm.classList.add('hidden');
+            resultsContainer.classList.add('show');
+
+            let resultType = '';
+            let resultTitle = '';
+            let resultMessage = '';
+            let ctaTitle = '';
+            let ctaText = '';
+            let badgeEmoji = '';
+
+            if (totalScore >= 28) {
+                resultType = 'ready';
+                resultTitle = 'ESTÁS PRONTO!';
+                resultMessage = 'Parabéns! Tens uma visão clara, objetivos bem definidos e prontidão para lançar. Chegou a hora de agir.';
+                badgeEmoji = '✨';
+                ctaTitle = 'Confirmação de Consultoria Agendada';
+                ctaText = 'A tua consultoria foi confirmada para o dia e hora selecionado. Vamos enviar os detalhes para o teu WhatsApp e email.';
+            } else if (totalScore >= 15) {
+                resultType = 'almost';
+                resultTitle = 'QUASE LÁ!';
+                resultMessage = 'Tens direção, mas faltam alguns detalhes. Com um checklist e uma consulta rápida, vais estar ready para lançar.';
+                badgeEmoji = '🎯';
+                ctaTitle = 'Consultoria Agendada + Checklist';
+                ctaText = 'Vamos enviar um checklist do que falta + os detalhes da tua consultoria para o WhatsApp e email.';
+            } else {
+                resultType = 'not-ready';
+                resultTitle = 'AINDA NÃO!';
+                resultMessage = 'Não te preocupes! Isto é normal. Precisa-se de clareza antes de agir. Vamos te guiar.';
+                badgeEmoji = '🚀';
+                ctaTitle = 'Consultoria Agendada + Guia Gratuito';
+                ctaText = 'Vamos enviar um guia com 7 passos essenciais + detalhes da tua consultoria para o WhatsApp e email.';
+            }
+
+            // Format date/time
+            const dateObj = new Date(submissionData.consultationDate);
+            const formattedDate = submissionData.consultationDate ? dateObj.toLocaleDateString('pt-PT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Data não fornecida';
+            const formattedTime = submissionData.consultationTime || 'Horário não fornecido';
+
+            const whatsappMessage = `Olá 👋\n\nConfirmação de consultoria:\n\n📅 Data: ${formattedDate}\n⏰ Horário: ${formattedTime}\n\n👤 ${submissionData.firstName} ${submissionData.lastName}\n🏢 ${submissionData.companyName}\n💼 ${submissionData.jobTitle}\n\n✅ Confirmação enviada para email também.\n\nEspera receber ficheiros de análise e próximas etapas por aqui e por email em breve.`;
+
+            const whatsappLink = `https://wa.me/306955315138?text=${encodeURIComponent(whatsappMessage)}`;
+
+            const resultsHTML = `
+                <div class="quiz-container">
+                    <div class="result-badge ${resultType}">${badgeEmoji}</div>
+                    <h1 class="result-title">${resultTitle}</h1>
+                    <p class="result-message">${resultMessage}</p>
+                    <p class="result-points">SCORE: ${totalScore}/39 pontos</p>
+                    
+                    <div class="cta-section">
+                        <h2 class="cta-title">${ctaTitle}</h2>
+                        <p class="cta-text">${ctaText}</p>
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--accent-gold);">
+                            <p style="font-weight: 600; color: var(--text-dark); margin-bottom: 10px;">📅 Consultoria Agendada</p>
+                            <p style="color: var(--text-light); margin-bottom: 15px;">
+                                <strong>${formattedDate}</strong><br>
+                                <strong>${formattedTime}</strong>
+                            </p>
+                        </div>
+                        <a href="${whatsappLink}" target="_blank"><button class="btn-cta">✓ AGENDAR WHATSAPP</button></a>
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(166, 77, 121, 0.05); border-radius: 12px; text-align: center;">
+                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 10px;">✉️ Uma confirmação foi enviada para:</p>
+                        <p style="font-weight: 600; color: var(--text-dark);">${submissionData.email}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Single sendToZapier with fallback to localStorage queue
+        function sendToZapier(data) {
+            // Build payload for Zapier (customize if needed)
+            const payload = {
+                _id: data._id,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                whatsapp: data.whatsapp,
+                companyName: data.companyName,
+                jobTitle: data.jobTitle,
+                consultationDate: data.consultationDate,
+                consultationTime: data.consultationTime,
+                publico_alvo: data.publico_alvo,
+                diferenciador: data.diferenciador,
+                score_total: data.score,
+                categoria_resultado: (data.score >= 28) ? 'Estás Pronto' : (data.score >= 15 ? 'Quase Lá' : 'Ainda Não'),
+                segmento_brevo: (data.score >= 28) ? 'HOT LEAD' : (data.score >= 15 ? 'WARM LEAD' : 'COLD LEAD'),
+                status_agendamento: 'Confirmado',
+                data_submissao: data.submittedAt
+            };
+
+            console.log('Tentando enviar para Zapier:', payload);
+
+            fetch(ZAPIER_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Resposta não OK: ' + response.status);
+                console.log('✅ Dados enviados para Zapier. Status:', response.status);
+                // If this payload exists in queue, remove it
+                removeFromQueueById(data._id);
+            })
+            .catch(err => {
+                console.warn('⚠️ Erro ao enviar para Zapier, guardando no localStorage para reenviar. Erro:', err);
+                // Save payload with id so we can retry later
+                pushToQueue(payload);
+            });
+        }
+
+        // Try to resend queued items
+        function resendQueue() {
+            const queue = readQueue();
+            if (!queue.length) return;
+            console.log('Tentando reenviar fila de envios:', queue.length, 'item(s).');
+
+            queue.forEach(item => {
+                fetch(ZAPIER_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(item)
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Resposta não OK: ' + response.status);
+                    console.log('✅ Reenvio bem-sucedido para item', item._id);
+                    removeFromQueueById(item._id);
+                })
+                .catch(err => {
+                    console.warn('Falha no reenvio para item', item._id, err);
+                    // Keep in queue; next attempt continuará a tentar
+                });
+            });
+        }
+
+        // UI: add selected class on radio change / initialize existing
+        function initOptionSelection() {
+            document.querySelectorAll('.options').forEach(optionsEl => {
+                optionsEl.addEventListener('change', (e) => {
+                    const name = e.target.name;
+                    optionsEl.querySelectorAll(`input[name="${name}"]`).forEach(inp => {
+                        const label = inp.closest('label.option-btn');
+                        if (label) label.classList.toggle('selected', inp.checked);
+                    });
+                });
+            });
+
+            // Initialize selected class for checked inputs (if any)
+            document.querySelectorAll('input[type="radio"]').forEach(inp => {
+                const label = inp.closest('label.option-btn');
+                if (label && inp.checked) label.classList.add('selected');
+            });
+
+            // Also allow clicking label to toggle visual immediately (most browsers handle radio change automatically)
+            document.querySelectorAll('label.option-btn').forEach(label => {
+                label.addEventListener('click', () => {
+                    const inp = label.querySelector('input[type="radio"]');
+                    if (!inp) return;
+                    // setTimeout to wait for input.checked state update
+                    setTimeout(() => {
+                        // remove selected for siblings with same name
+                        const parentOptions = label.closest('.options');
+                        if (!parentOptions) return;
+                        parentOptions.querySelectorAll(`input[name="${inp.name}"]`).forEach(otherInp => {
+                            const otherLabel = otherInp.closest('label.option-btn');
+                            if (otherLabel) otherLabel.classList.toggle('selected', otherInp.checked);
+                        });
+                    }, 10);
+                });
+            });
+        }
+
+        // Initialize
+        function init() {
+            // make totalQuestions element reflect constant
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+
+            initOptionSelection();
+            showQuestion(1);
+
+            // attempt to resend pending items on load
+            setTimeout(resendQueue, 1000);
+
+            // also attempt periodic resends (every 60s)
+            setInterval(resendQueue, 60000);
+        }
+
+        // Run init on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
