@@ -72,6 +72,4 @@ def update_notion(data):
 
 def trigger_zapier(data):
     # Use the user's existing Zapier Webhook if they have one
-    # For now, we'll return a placeholder as the user needs to provide the URL
-    # or we can use the one previously identified if it's still valid.
     return "Zapier trigger logic would go here"
