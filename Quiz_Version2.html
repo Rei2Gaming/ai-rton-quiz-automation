@@ -811,7 +811,7 @@
     <script>
         // Config
         const totalQuestions = 15;
-        const ZAPIER_WEBHOOK_URL = "https://5000-iipgok7ow3h95kxr2zdk9-80def95d.us1.manus.computer/submit"; // Updated to Manus backend
+        const ZAPIER_WEBHOOK_URL = "https://ai-rton-quiz-automation.vercel.app/submit"; // Vercel backend
 
         // State
         let currentQuestion = 1;
@@ -1171,22 +1171,45 @@
 
         // Run init on load
         window.addEventListener('DOMContentLoaded', init);
-        // Auto-resize iframe script - Simplified and safe
+        // Auto-resize iframe script - Fixed for results page
         function sendHeight() {
-            const height = document.body.offsetHeight;
-            window.parent.postMessage({ type: "resize", height: height }, "*");
+            // Wait for DOM to settle, then calculate full height
+            setTimeout(function() {
+                const body = document.body;
+                const html = document.documentElement;
+                const height = Math.max(
+                    body.scrollHeight, body.offsetHeight,
+                    html.clientHeight, html.scrollHeight, html.offsetHeight
+                );
+                // Add padding for safety
+                window.parent.postMessage({ type: "resize", height: height + 50 }, "*");
+            }, 100);
         }
+        
+        // Send height on load
         window.addEventListener("load", sendHeight);
+        
+        // Send height on window resize
         window.addEventListener("resize", sendHeight);
-        // Trigger on step changes
-        const originalNextStep = window.nextStep;
-        window.nextStep = function() {
-            if (typeof originalNextStep === 'function') originalNextStep();
-            setTimeout(sendHeight, 100);
+        
+        // Override showResults to trigger resize after results are displayed
+        const originalShowResults = window.showResults;
+        window.showResults = function(totalScore, submissionData) {
+            if (typeof originalShowResults === 'function') {
+                originalShowResults(totalScore, submissionData);
+            }
+            // Wait for results to render, then resize
+            setTimeout(sendHeight, 300);
+            setTimeout(sendHeight, 600);
+            setTimeout(sendHeight, 1000);
         };
-        const originalPrevStep = window.prevStep;
-        window.prevStep = function() {
-            if (typeof originalPrevStep === 'function') originalPrevStep();
+        
+        // Also trigger on question navigation
+        const originalShowQuestion = window.showQuestion;
+        window.showQuestion = function(num) {
+            if (typeof originalShowQuestion === 'function') {
+                originalShowQuestion(num);
+            }
             setTimeout(sendHeight, 100);
         };
     </script>
