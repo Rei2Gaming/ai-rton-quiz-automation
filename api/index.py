@@ -10,7 +10,7 @@ CORS(app)
 
 # Notion Configuration
 NOTION_API_KEY = os.environ.get("NOTION_API_KEY")
-NOTION_DATABASE_ID = "2e1404b2-ae9a-800a-a9bd-000b72449352"
+NOTION_DATABASE_ID = "2e1404b2-ae9a-803b-9dca-d434fcd37f23"
 
 def update_notion(data):
     if not NOTION_API_KEY:

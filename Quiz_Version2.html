@@ -1171,14 +1171,32 @@
 
         // Run init on load
         window.addEventListener('DOMContentLoaded', init);
-        // Auto-resize iframe script 
-        function sendHeight() { 
-            const height = document.documentElement.scrollHeight || document.body.scrollHeight; 
-            window.parent.postMessage({ type: "resize", height: height }, "*"); 
-        } 
-        window.addEventListener("load", sendHeight); 
-        window.addEventListener("resize", sendHeight); 
-        new MutationObserver(sendHeight).observe(document.body, { attributes: true, childList: true, subtree: true });
+        // Auto-resize iframe script with debounce to prevent infinite loop
+        let lastHeight = 0;
+        let resizeTimeout;
+        function sendHeight() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                const height = Math.min(document.documentElement.scrollHeight || document.body.scrollHeight, 2000);
+                if (Math.abs(height - lastHeight) > 10) {
+                    lastHeight = height;
+                    window.parent.postMessage({ type: "resize", height: height }, "*");
+                }
+            }, 100);
+        }
+        window.addEventListener("load", sendHeight);
+        window.addEventListener("resize", sendHeight);
+        // Only observe specific changes, not all mutations
+        const observer = new MutationObserver(function(mutations) {
+            let shouldResize = false;
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    shouldResize = true;
+                }
+            });
+            if (shouldResize) sendHeight();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
     </script>
 </body>
 </html>
